@@ -1,6 +1,9 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { DatabaseIcon, HistoryIcon, Home, PackageIcon, PlusIcon } from "lucide-react";
-import QuickActionDrawer from "./QuickActionDrawer";
+import { lazy, Suspense } from "react";
+import { Button } from "./ui/button";
+
+const QuickActionDrawer = lazy(() => import("./QuickActionDrawer"));
 
 const items = [
   {
@@ -47,7 +50,15 @@ export default function Dock() {
           if (item.type === "action") {
             return (
               <div key={item.type} className="flex items-center justify-center">
-                <QuickActionDrawer />
+                <Suspense
+                  fallback={
+                    <Button className="rounded-full bg-blue-500 hover:bg-blue-500/80 size-12 fixed">
+                      <PlusIcon />
+                    </Button>
+                  }
+                >
+                  <QuickActionDrawer />
+                </Suspense>
               </div>
             );
           }
